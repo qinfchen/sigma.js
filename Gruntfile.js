@@ -161,6 +161,13 @@ module.exports = function(grunt) {
       require: {
         src: npmJsFiles,
         dest: 'build/sigma.require.js'
+      },
+      plugins: {
+        files: pluginFiles.reduce(function(res, path) {
+          var dest = 'build/' + path.replace(/\/\*\*\/\*\.js$/, '.js');
+          res[dest] = path;
+          return res;
+        }, {})
       }
     },
     sed: {
@@ -191,10 +198,10 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
 
   // By default, will check lint, hint, test and minify:
-  grunt.registerTask('default', ['closureLint', 'jshint', 'qunit', 'sed', 'grunt', 'uglify']);
+  grunt.registerTask('default', ['closureLint', 'jshint', 'qunit', 'sed', 'grunt', 'uglify', 'concat:require', 'concat:plugins']);
   grunt.registerTask('release', ['closureLint', 'jshint', 'qunit', 'sed', 'grunt', 'uglify', 'zip']);
-  grunt.registerTask('npmPrePublish', ['uglify:plugins', 'grunt', 'concat:require']);
-  grunt.registerTask('build', ['uglify', 'grunt', 'concat:require']);
+  grunt.registerTask('npmPrePublish', ['uglify:plugins', 'grunt', 'concat:require', 'concat:plugins']);
+  grunt.registerTask('build', ['uglify', 'grunt', 'concat:require', 'concat:plugins']);
   grunt.registerTask('test', ['qunit']);
 
   // For travis-ci.org, only launch tests:

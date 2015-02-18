@@ -17,12 +17,18 @@ module.exports = function(grunt) {
           'build/plugins/sigma.layout.forceAtlas2.min.js': files
         }
       }
+    },
+    concat: {
+      dist: {
+        src: files,
+        dest: 'build/plugins/sigma.layout.forceAtlas2.js'
+      }
     }
   });
 
   // Loading tasks
   grunt.loadTasks(__dirname + '/tasks');
-
+  grunt.loadNpmTasks('grunt-contrib-concat');
   // By default, we will crush and then minify
-  grunt.registerTask('default', ['forceAtlas2:prod']);
+  grunt.registerTask('default', ['forceAtlas2:prod', 'concat:dist']);
 };
