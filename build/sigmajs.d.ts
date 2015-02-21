@@ -4,4 +4,8 @@ declare module SigmaJs {
     interface Node {
         cssClass?: string;
     }
+
+    interface Edge {
+        cssClass?: string;
+    }
 }
